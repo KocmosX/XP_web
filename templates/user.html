@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="user-container">
+    <h2>Панель пользователя</h2>
+    <form action="{{ url_for('start_observation') }}" method="post">
+        <label for="patient_id">Пациент:</label>
+        <select id="patient_id" name="patient_id" required>
+            {% for patient in patients %}
+            <option value="{{ patient.id }}">{{ patient.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="position">Должность:</label>
+        <select id="position" name="position" required>
+            <option value="врач">Врач</option>
+            <option value="медсестра">Медсестра</option>
+        </select>
+        <label for="organization_id">Организация:</label>
+        <select id="organization_id" name="organization_id" required>
+            {% for organization in organizations %}
+            <option value="{{ organization.id }}">{{ organization.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Начать осмотр</button>
+    </form>
+    <form action="{{ url_for('end_observation') }}" method="post">
+        <label for="observation_id">Выберите осмотр:</label>
+        <select id="observation_id" name="observation_id" required>
+            {% for observation in observations %}
+            <option value="{{ observation.id }}">{{ observation.patient_id }} - {{ observation.start_time }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Завершить осмотр</button>
+    </form>
+    <h3>Текущие осмотры</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Пациент</th>
+                <th>Должность</th>
+                <th>Организация</th>
+                <th>Время начала</th>
+                <th>Время завершения</th>
+                <th>Длительность (сек)</th>
+                <th>Комментарий</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for observation in observations %}
+            <tr>
+                <td>{{ observation.patient_id }}</td>
+                <td>{{ observation.position }}</td>
+                <td>{{ observation.organization_id }}</td>
+                <td>{{ observation.start_time }}</td>
+                <td>{{ observation.end_time }}</td>
+                <td>{{ observation.duration }}</td>
+                <td>{{ observation.comment }}</td>
+                <td>{{ observation.action }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Завершенные осмотры</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Пациент</th>
+                <th>Должность</th>
+                <th>Организация</th>
+                <th>Время начала</th>
+                <th>Время завершения</th>
+                <th>Общее время (сек)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for completed_observation in completed_observations %}
+            <tr>
+                <td>{{ completed_observation.patient_id }}</td>
+                <td>{{ completed_observation.position }}</td>
+                <td>{{ completed_observation.organization_id }}</td>
+                <td>{{ completed_observation.start_time }}</td>
+                <td>{{ completed_observation.end_time }}</td>
+                <td>{{ completed_observation.total_time }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

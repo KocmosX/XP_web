@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="login-container">
+    <h2>Вход</h2>
+    <form action="{{ url_for('admin_login') }}" method="post">
+        <label for="username">Имя пользователя:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Войти как администратор</button>
+    </form>
+    <a href="{{ url_for('user_login') }}">Войти как пользователь</a>
+</div>
+{% endblock %}

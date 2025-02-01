@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-container">
+    <h2>Панель администратора</h2>
+    <form action="{{ url_for('add_patient') }}" method="post">
+        <button type="submit">Добавить пациента</button>
+    </form>
+    <form action="{{ url_for('add_organization') }}" method="post">
+        <label for="organization_name">Название организации:</label>
+        <input type="text" id="organization_name" name="name" required>
+        <button type="submit">Добавить организацию</button>
+    </form>
+    <form action="{{ url_for('add_category') }}" method="post">
+        <label for="category_name">Название категории:</label>
+        <input type="text" id="category_name" name="name" required>
+        <button type="submit">Добавить категорию</button>
+    </form>
+    <form action="{{ url_for('add_action') }}" method="post">
+        <label for="category_id">Категория:</label>
+        <select id="category_id" name="category_id" required>
+            {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="action_name">Название действия:</label>
+        <input type="text" id="action_name" name="name" required>
+        <button type="submit">Добавить действие</button>
+    </form>
+</div>
+{% endblock %}
